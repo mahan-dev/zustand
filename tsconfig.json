@@ -27,7 +27,8 @@
       "@/templates/*": ["./components/templates/*"],
       "@/modules/*": ["./components/modules/*"],
       "@/elements/*": ["./components/elements/*"],
-      "@/store/*": ["./components/store/*"]
+      "@/store/*": ["./components/store/*"],
+      "@/api/*": ["./api/*"]
     }
   },
   "include": [
