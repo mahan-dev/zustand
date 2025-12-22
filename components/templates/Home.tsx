@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 
-import { useBear } from "@/store/Store";
+import { useBear, useBearStore } from "@/store/Store";
 
 const Home = () => {
   const BearCounter = () => {
@@ -9,6 +9,9 @@ const Home = () => {
 
     return <h1>{bearCounter} bear around here ... </h1>;
   };
+
+  const bears = useBearStore((state) => state.bears);
+  const addABear = useBearStore((state) => state.addABear);
 
   const Controls = () => {
     const increasePopulation = useBear((state) => state.increment);
@@ -26,6 +29,9 @@ const Home = () => {
     <div>
       <BearCounter />
       <Controls />
+
+      <h1>{bears} bears</h1>
+      <button onClick={addABear}>Add bear</button>
     </div>
   );
 };
