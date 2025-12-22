@@ -23,7 +23,11 @@
       "@/app/*": ["./app/*"],
       "@/interface/*": ["./interface/*"],
       "@/types/*": ["./types/*"],
-      "@/components/*": ["./components/*"]
+      "@/components/*": ["./components/*"],
+      "@/templates/*": ["./components/templates/*"],
+      "@/modules/*": ["./components/modules/*"],
+      "@/elements/*": ["./components/elements/*"],
+      "@/store/*": ["./components/store/*"]
     }
   },
   "include": [

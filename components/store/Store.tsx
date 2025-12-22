@@ -1,0 +1,11 @@
+"use client";
+import { create } from "zustand";
+
+export const useBear = create((set) => ({
+  bears: 0,
+  increasePopulation: () => set((state) => ({ bears: state.bears + 1 })),
+  decreasePopulation: () =>
+    set((state) => ({ bears: state.bears >= 1 && state.bears - 1 })),
+  removeAllBears: () => set({ bears: 0 }),
+  updateBears: (newBears) => set({ bears: newBears }),
+}));
