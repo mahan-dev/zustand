@@ -11,8 +11,8 @@ const Home = () => {
   };
 
   const Controls = () => {
-    const increasePopulation = useBear((state) => state.increasePopulation);
-    const decreasePopulation = useBear((state) => state.decreasePopulation);
+    const increasePopulation = useBear((state) => state.increment);
+    const decreasePopulation = useBear((state) => state.decrement);
     return (
       <div className="flex  gap-3">
         <button onClick={increasePopulation}>oneUp</button>

@@ -1,11 +1,18 @@
 "use client";
 import { create } from "zustand";
 
-export const useBear = create((set) => ({
+interface BearState {
+  bears: number;
+  increment: () => void;
+  decrement: () => void;
+  removeAll: () => void;
+  updateBears: (newBears: number) => void;
+}
+
+export const useBear = create<BearState>((set) => ({
   bears: 0,
-  increasePopulation: () => set((state) => ({ bears: state.bears + 1 })),
-  decreasePopulation: () =>
-    set((state) => ({ bears: state.bears >= 1 && state.bears - 1 })),
-  removeAllBears: () => set({ bears: 0 }),
+  increment: () => set(({ bears }) => ({ bears: bears + 1 })),
+  decrement: () => set(({ bears }) => ({ bears: bears > 0 ? bears - 1 : 0 })),
+  removeAll: () => set({ bears: 0 }),
   updateBears: (newBears) => set({ bears: newBears }),
 }));
