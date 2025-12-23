@@ -1,6 +1,5 @@
-import FetchLists from "@/components/templates/fetchLists";
+import FetchLists from "@/templates/FetchLists"; 
 import Home from "@/templates/Home";
-
 
 const page = () => {
   return (
