@@ -12,13 +12,13 @@ const addHandler = async (
 
   //   await fetch(`${BASE_URL}posts`);
   try {
-    const res = await axios.post(`${BASE_URL}posts`, form);
-    const { data }: FormState = res.data;
+    const { data }: FormState = await axios.post(`${BASE_URL}posts`, form);
+    // const { data }: FormState = res.data;
 
     return {
       error: null,
-      data: data,
-    };
+      data,
+    }; 
   } catch (error) {
     const getPrev = { ...prevState };
     console.log(getPrev);
