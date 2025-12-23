@@ -1,8 +1,8 @@
 interface ItemDetails {
-  id: number;
-  userId: number;
-  title: string;
-  body: string;
+  id?: number;
+  userId?: number;
+  title?: string;
+  body?: string;
 }
 interface FormState {
   data?: ItemDetails | null;
