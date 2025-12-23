@@ -1,13 +1,16 @@
 "use client";
 import { useQuery } from "@tanstack/react-query";
-import { useActionState } from "react";
+import { useActionState, useEffect } from "react";
 
 import { addHandler } from "@/helper/addHandler";
 import { dataFetcher } from "@/helper/dataFetcher";
 import { ItemDetails } from "@/types/helper/type";
 
+import { usePersistedBearStore } from "../store/Store";
+
 const FetchLists = () => {
   const [state, formAction, isPending] = useActionState(addHandler, null);
+  const { setData } = usePersistedBearStore();
 
   console.log(state);
 
@@ -15,6 +18,11 @@ const FetchLists = () => {
     queryKey: ["fetchLists"],
     queryFn: async () => dataFetcher(),
   });
+
+  useEffect(() => {
+    setData(state);
+
+  }, [state])
   const fetchedData: ItemDetails[] = data;
 
   return (

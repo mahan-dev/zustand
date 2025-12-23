@@ -14,9 +14,6 @@ const addHandler = async (
   try {
     const res = await axios.post(`${BASE_URL}posts`, form);
     const data: FormState = res.data;
-    if (res.status === 201) {
-      console.log("hello");
-    }
 
     return {
       error: null,
