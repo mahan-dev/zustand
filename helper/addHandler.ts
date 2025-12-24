@@ -18,14 +18,15 @@ const addHandler = async (
     return {
       error: null,
       data,
-    }; 
+    };
   } catch (error) {
     const getPrev = { ...prevState };
-    console.log(getPrev);
+    const errorMessage =
+      error instanceof Error ? error.message : "something wen't wrong";
 
     return {
       ...prevState,
-      error: error.message,
+      error: errorMessage,
     };
   }
 };
