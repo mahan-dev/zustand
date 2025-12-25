@@ -1,0 +1,6 @@
+@reference "tailwindcss";
+
+.loader svg {
+    @apply w-auto h-5.5;
+    
+}

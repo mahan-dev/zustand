@@ -27,6 +27,8 @@
       "@/templates/*": ["./components/templates/*"],
       "@/modules/*": ["./components/modules/*"],
       "@/elements/*": ["./components/elements/*"],
+      "@/ui/*": ["./components/ui/*"],
+      "@/loader/*": ["./components/loader/*"],
       "@/store/*": ["./components/store/*"],
       "@/api/*": ["./api/*"]
     }

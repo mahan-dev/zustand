@@ -2,11 +2,13 @@
 import { useQuery } from "@tanstack/react-query";
 import { useActionState, useEffect, useOptimistic, useState } from "react";
 
+import Loader from "@/components/loader/Loader";
 import { addHandler } from "@/helper/addHandler";
 import { dataFetcher } from "@/helper/dataFetcher";
+import { usePersistedBearStore } from "@/store/Store";
 import { ItemDetails } from "@/types/helper/type";
-
-import { usePersistedBearStore } from "../store/Store";
+import { Button } from "@/ui/button";
+import { Input } from "@/ui/input";
 
 const FetchLists = () => {
   const [state, formAction, isPending] = useActionState(addHandler, null);
@@ -27,18 +29,15 @@ const FetchLists = () => {
     queryFn: async () => dataFetcher(),
   });
 
-  console.log(error);
-
-  const actionHandler =  (formData: FormData) => {
+  const actionHandler = (formData: FormData) => {
     const form = Object.fromEntries(formData.entries());
-    
 
     const optimisticItem: ItemDetails = {
-      // id.
       title: form.title as string,
       body: form.body as string,
     };
-    // if (data.length)
+    console.log("🔥 ~ fetchLists.tsx:33 -> optimisticItem: ", optimisticItem);
+
     setDataList((prev) => [optimisticItem, ...prev]);
     setOptimistic(optimisticItem);
     formAction(formData);
@@ -52,11 +51,12 @@ const FetchLists = () => {
 
   return (
     <>
+      <Loader />
       <form action={actionHandler}>
         <div className="w-2xs flex flex-col gap-1.5 m-2">
-          <input name="title" className="bg-white text-black" type="text" />
-          <input name="body" className="bg-white text-black" type="text" />
-          <button>click</button>
+          <Input name="title" type="text" />
+          <Input name="body" type="text" />
+          <Button>{isPending ? <Loader /> : "Click"}</Button>
         </div>
       </form>
       <h1>added list</h1>
