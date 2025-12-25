@@ -14,7 +14,7 @@ const Home = () => {
   });
 
   const BearCounter = () => {
-    const bearCounter = useBear((state) => state.bears);
+    const bearCounter = useBear((state) => state.quantity);
 
     return <h1>{bearCounter} bear around here ... </h1>;
   };

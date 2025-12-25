@@ -1,11 +1,18 @@
+import { dataDetail } from "@/helper/dataFetcher";
+import { ItemDetails } from "@/types/helper/type";
+
 interface State {
-  bears: number;
+  products: ProductStore[];
+}
+export interface ProductStore extends ItemDetails {
+  quantity: number;
+  id: number;
 }
 interface Action {
-  increment: () => void;
-  decrement: () => void;
-  removeAll: () => void;
-  updateBears: (newBears: number) => void;
+  increment: (product:dataDetail, id: number) => void;
+  decrement?: () => void;
+  removeAll?: () => void;
+  updateBears?: (newBears: number) => void;
 }
 
 interface BearStorage {

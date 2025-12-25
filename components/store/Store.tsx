@@ -1,20 +1,50 @@
 "use client";
-import { error } from "console";
 
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import { createJSONStorage } from "zustand/middleware";
 
+import { dataDetail } from "@/helper/dataFetcher";
 import { Action, BearStorage, State } from "@/interface/store/store";
-import { FormState, FormStatus, ItemDetails } from "@/types/helper/type";
+import { FormState, ItemDetails } from "@/types/helper/type";
 
-export const useBear = create<State & Action>((set) => ({
-  bears: 0,
-  increment: () => set(({ bears }) => ({ bears: bears + 1 })),
-  decrement: () => set(({ bears }) => ({ bears: bears > 0 ? bears - 1 : 0 })),
-  removeAll: () => set({ bears: 0 }),
-  updateBears: (newBears) => set({ bears: newBears }),
-}));
+export const useBear = create<State & Action>()(
+  persist(
+    (set, get) => ({
+      products: [],
+      increment: (card: dataDetail, id: number) =>
+        set((state) => {
+          // const product = state?.products.find((p) => p.id === id);
+          console.log("🌮 ~ Store.tsx:16 -> state: ", state);
+          console.log("🎃 ~ Store.tsx:14 -> id: ", id);
+          console.log("🚞 ~ Store.tsx:14 -> item: ", card);
+
+          return {
+            ...state,
+            products: [...state.products, { ...card, quantity: 1 }],
+          };
+
+          // return {
+          //   ...state,
+          //   products: state.products.map((productItem) =>
+          //     productItem.id === card.id
+          //       ? {
+          //           ...productItem,
+          //           quantity: productItem.quantity
+          //             ? productItem.quantity + 1
+          //             : 0,
+          //         }
+          //       : productItem
+          //   ),
+          // };
+        }),
+    }),
+    {
+      name: "product-store",
+      storage: createJSONStorage(() => localStorage),
+    }
+  )
+);
 
 export const useBearStore = create<BearStorage>()(
   persist(
@@ -23,8 +53,7 @@ export const useBearStore = create<BearStorage>()(
       addABear: () => set({ bears: get().bears + 1 }),
     }),
     {
-      name: "bear-storage",
-      //   storage: createJSONStorage(() => localStorage),
+      name: "Product - Storage",
       storage: createJSONStorage(() => localStorage),
     }
   )

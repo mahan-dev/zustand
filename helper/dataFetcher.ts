@@ -21,4 +21,4 @@ export const dataFetcher = async () => {
   return res.data;
 };
 
-export type { dataResponse };
+export type { dataResponse, dataDetail };
