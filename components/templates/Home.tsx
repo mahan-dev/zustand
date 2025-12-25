@@ -1,9 +1,18 @@
 "use client";
+import { useQuery } from "@tanstack/react-query";
 import React from "react";
 
+import { dataFetcher } from "@/helper/dataFetcher";
 import { useBear, useBearStore } from "@/store/Store";
 
+import Card from "../modules/Card";
+
 const Home = () => {
+  const { data } = useQuery({
+    queryKey: ["dataFetcher"],
+    queryFn: async () => await dataFetcher(),
+  });
+
   const BearCounter = () => {
     const bearCounter = useBear((state) => state.bears);
 
@@ -29,6 +38,7 @@ const Home = () => {
     <div>
       <BearCounter />
       <Controls />
+      {!!data?.length && <Card data={data} />}
 
       <h1>{bears} bears</h1>
       <button onClick={addABear}>Add bear</button>

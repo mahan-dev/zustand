@@ -63,34 +63,12 @@ const FetchLists = () => {
       <p>state == </p>
       <div>
         {isPending && <p>loading ...</p>}
-        {state && (
+        {state?.data && (
           <>
-            {state.data?.title} - {state.data?.body}
+            {state.data.title} - {state.data.body}
           </>
         )}
       </div>
-      <h1>Lists</h1>
-      {
-        data && <h2 className="text-3xl text-blue-500">hello</h2>
-        // finalData.slice(0, 4).map((item, index) => (
-        //   <ul key={index} className="px-2">
-        //     <li>
-        //       {index} {item.body}
-        //     </li>
-        //   </ul>
-        // ))
-      }
-      optimisticState
-      {
-        // !!optimisticState.length &&
-        optimisticState.slice(0, 3).map((item, index) => (
-          <ul key={index} className="px-2">
-            <li>
-              {item.title} {item.body}
-            </li>
-          </ul>
-        ))
-      }
     </>
   );
 };
