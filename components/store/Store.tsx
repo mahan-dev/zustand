@@ -20,48 +20,24 @@ export const useBear = create<State & Action>()(
           console.log("🚞 ~ Store.tsx:14 -> item: ", { ...card });
 
           console.log(card);
-          const isQuantity = state.products.find((item) => item.id === card.id);
+          const exists = state.products.find((item) => item.id === card.id);
 
-          const exist = state.products.find((item) => item.id === card.id);
-          if (exist) return state;
-          else if (isQuantity)
+          if (exists) {
             return {
-              ...state,
-              products: [
-                ...state.products,
-                {
-                  ...card,
-                  quantity: isQuantity.quantity ? isQuantity.quantity++ : 1,
-                },
-              ],
+              products: state.products.map((p) =>
+                p.id === card.id ? { ...p, quantity: p.quantity + 1 } : p
+              ),
             };
-          else console.log("false");
-          console.log(state.products.map((item) => item));
-
+          }
           return {
-            ...state,
             products: [...state.products, { ...card, quantity: 1 }],
           };
-
-          // return {
-          //   ...state,
-          //   products: state.products.map((productItem) =>
-          //     productItem.id === card.id
-          //       ? {
-          //           ...productItem,
-          //           quantity: productItem.quantity
-          //             ? productItem.quantity + 1
-          //             : 0,
-          //         }
-          //       : productItem
-          //   ),
-          // };
         }),
       quantity: (id: number) => {
         // console.log(id);
         const getQuantity = get().products.find((p) => p.id === id);
         if (!getQuantity?.quantity) return 0;
-        else if (getQuantity.quantity) return getQuantity.quantity + 1;
+        else if (getQuantity.quantity) return getQuantity.quantity;
 
         return getQuantity.quantity || 0;
       },
