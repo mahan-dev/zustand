@@ -17,7 +17,24 @@ export const useBear = create<State & Action>()(
           // const product = state?.products.find((p) => p.id === id);
           console.log("🌮 ~ Store.tsx:16 -> state: ", state);
           console.log("🎃 ~ Store.tsx:14 -> id: ", id);
-          console.log("🚞 ~ Store.tsx:14 -> item: ", card);
+          console.log("🚞 ~ Store.tsx:14 -> item: ", { ...card });
+
+          console.log(card);
+          const isQuantity = state.products.find((item) => item.id === card.id);
+
+          if (isQuantity)
+            return {
+              ...state,
+              products: [
+                ...state.products,
+                {
+                  ...card,
+                  quantity: isQuantity.quantity ? isQuantity.quantity++ : 1,
+                },
+              ],
+            };
+          else console.log("false");
+          console.log(state.products.map((item) => item));
 
           return {
             ...state,
@@ -38,6 +55,12 @@ export const useBear = create<State & Action>()(
           //   ),
           // };
         }),
+      quantity: (id: number) => {
+        // console.log(id);
+        const getQuantity = get().products.find((p) => p.id === id);
+        // console.log(getQuantity);
+        return getQuantity?.quantity ?? 0;
+      },
     }),
     {
       name: "product-store",

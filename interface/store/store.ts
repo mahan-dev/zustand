@@ -12,6 +12,7 @@ interface Action {
   increment: (product:dataDetail, id: number) => void;
   decrement?: () => void;
   removeAll?: () => void;
+  quantity : (item: number) => void
   updateBears?: (newBears: number) => void;
 }
 
