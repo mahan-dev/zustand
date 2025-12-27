@@ -22,7 +22,9 @@ export const useBear = create<State & Action>()(
           console.log(card);
           const isQuantity = state.products.find((item) => item.id === card.id);
 
-          if (isQuantity)
+          const exist = state.products.find((item) => item.id === card.id);
+          if (exist) return state;
+          else if (isQuantity)
             return {
               ...state,
               products: [
@@ -58,8 +60,10 @@ export const useBear = create<State & Action>()(
       quantity: (id: number) => {
         // console.log(id);
         const getQuantity = get().products.find((p) => p.id === id);
-        // console.log(getQuantity);
-        return getQuantity?.quantity ?? 0;
+        if (!getQuantity?.quantity) return 0;
+        else if (getQuantity.quantity) return getQuantity.quantity + 1;
+
+        return getQuantity.quantity || 0;
       },
     }),
     {

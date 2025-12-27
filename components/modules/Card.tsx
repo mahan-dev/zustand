@@ -7,14 +7,14 @@ import { useBear } from "../store/Store";
 import { Button } from "../ui/button";
 
 const Card = ({ data }: dataResponse) => {
-  const quantity = useBear((state) => state.quantity(1));
-  const QuantityHandler = (id: number): number => {
-    const result: number = +useBear((state) => state.quantity(id));
-    return result;
-  };
+  const quantity = useBear((state) => state.quantity);
+  
+  // const QuantityHandler = (id: number): number => {
+  //   const result: number = +useBear((state) => state.quantity(id));
+  //   return result;
+  // };
   const increase = useBear((state) => state.increment);
   const decrease = useBear((state) => state.decrement);
-
   const clickHandler = () => {};
 
   const incrementHandler = () => {};
@@ -48,7 +48,7 @@ const Card = ({ data }: dataResponse) => {
               <Button className="text-[1rem]" onClick={() => console.log("hi")}>
                 Decrement
               </Button>
-              {QuantityHandler(id)}
+              {quantity(id)}
               <Button
                 className="text-[1rem]"
                 onClick={() => increase(item, id)}
