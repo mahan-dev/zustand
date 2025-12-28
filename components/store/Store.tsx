@@ -55,11 +55,12 @@ export const useBear = create<State & Action>()(
           };
         }),
 
-      // decrement : (card: dataDetail) => {
-      //   set((state) => {
-      //     const exist = state.pro
-      //   })
-      // },
+      remove: (card: dataDetail) =>
+        set((state) => ({
+      
+           products: state.products.filter((item) => item.id !== card.id)
+        })),
+
       quantity: (id: number) => {
         const getQuantity = get().products.find((p) => p.id === id);
         if (!getQuantity?.quantity) return 0;
