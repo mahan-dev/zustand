@@ -15,26 +15,13 @@ export const useBear = create<State & Action>()(
       total: 0,
       increment: (card: dataDetail) =>
         set((state) => {
-          // const index = state.products.findIndex((item) => (item.id === card.id));
-          // if (index !== -1) {
-          //   const updateIndex = [...state.products];
-
-          //   updateIndex[index] = {
-          //     ...updateIndex[index],
-          //     quantity: updateIndex[index].quantity + 1,
-          //   };
-
-          //   return {
-          //     products: updateIndex,
-          //   };
-          // }
-
           const index = state.products.findIndex((item) => item.id === card.id);
 
           if (index !== -1) {
             const updateIndex = [...state.products];
+
             updateIndex[index] = {
-              ...state.products[index],
+              ...updateIndex[index],
               quantity: updateIndex[index].quantity + 1,
             };
 
@@ -46,35 +33,23 @@ export const useBear = create<State & Action>()(
           return {
             products: [...state.products, { ...card, quantity: 1 }],
           };
-          // const exists = state.products.find((item) => item.id === card.id);
-
-          // if (exists) {
-          //   return {
-          //     products: state.products.map((p) =>
-          //       p.id === card.id ? { ...p, quantity: p.quantity + 1 } : p
-          //     ),
-          //   };
-          // }
-          // return {
-          //   products: [...state.products, { ...card, quantity: 1 }],
-          // };
         }),
+
       decrement: (card: dataDetail) =>
         set((state) => {
-          const exist = state.products.find((item) => item.id === card.id);
+          const index = state.products.findIndex((item) => item.id === card.id);
 
-          if (exist) {
+          if (index !== -1) {
+            const updateIndex = [...state.products];
+            updateIndex[index] = {
+              ...updateIndex[index],
+              quantity: Math.max(0, updateIndex[index].quantity - 1),
+            };
             return {
-              products: state.products.map((p) =>
-                p.id === card.id
-                  ? {
-                      ...p,
-                      quantity: p.quantity >= 1 ? p.quantity - 1 : p.quantity,
-                    }
-                  : p
-              ),
+              products: updateIndex,
             };
           }
+
           return {
             products: [...state.products, { ...card, quantity: 1 }],
           };
