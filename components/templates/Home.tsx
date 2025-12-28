@@ -16,7 +16,7 @@ const Home = () => {
   const BearCounter = () => {
     const bearCounter = useBear((state) => state.quantity);
 
-    return <h1>{bearCounter} bear around here ... </h1>;
+    // return <h1>{bearCounter} bear around here ... </h1>;
   };
 
   const bears = useBearStore((state) => state.bears);
@@ -28,7 +28,7 @@ const Home = () => {
 
     return (
       <div className="flex  gap-3">
-        <button onClick={increasePopulation}>oneUp</button>
+        {/* <button onClick={increasePopulation}>oneUp</button> */}
         <button onClick={decreasePopulation}>onDown</button>
       </div>
     );
@@ -36,7 +36,7 @@ const Home = () => {
 
   return (
     <div>
-      <BearCounter />
+      {/* <BearCounter /> */}
       <Controls />
       {!!data?.length && <Card data={data} />}
 

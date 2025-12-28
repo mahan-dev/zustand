@@ -1,6 +1,5 @@
 import { dataResponse } from "@/helper/dataFetcher";
-
-import Product from "./Product";
+import Product from "@/modules/Product";
 
 const Card = ({ data }: dataResponse) => {
   return (

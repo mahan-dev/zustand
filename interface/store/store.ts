@@ -9,8 +9,8 @@ export interface ProductStore extends ItemDetails {
   id: number;
 }
 interface Action {
-  increment: (product: dataDetail, id: number) => void;
-  decrement?: () => void;
+  increment: (product: dataDetail) => void;
+  decrement: (product:dataDetail) => void;
   removeAll?: () => void;
   quantity: (item: number) => number;
   updateBears?: (newBears: number) => void;

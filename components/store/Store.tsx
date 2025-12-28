@@ -12,20 +12,66 @@ export const useBear = create<State & Action>()(
   persist(
     (set, get) => ({
       products: [],
-      increment: (card: dataDetail, id: number) =>
+      total: 0,
+      increment: (card: dataDetail) =>
         set((state) => {
-          // const product = state?.products.find((p) => p.id === id);
-          console.log("🌮 ~ Store.tsx:16 -> state: ", state);
-          console.log("🎃 ~ Store.tsx:14 -> id: ", id);
-          console.log("🚞 ~ Store.tsx:14 -> item: ", { ...card });
+          // const index = state.products.findIndex((item) => (item.id === card.id));
+          // if (index !== -1) {
+          //   const updateIndex = [...state.products];
 
-          console.log(card);
-          const exists = state.products.find((item) => item.id === card.id);
+          //   updateIndex[index] = {
+          //     ...updateIndex[index],
+          //     quantity: updateIndex[index].quantity + 1,
+          //   };
 
-          if (exists) {
+          //   return {
+          //     products: updateIndex,
+          //   };
+          // }
+
+          const index = state.products.findIndex((item) => item.id === card.id);
+
+          if (index !== -1) {
+            const updateIndex = [...state.products];
+            updateIndex[index] = {
+              ...state.products[index],
+              quantity: updateIndex[index].quantity + 1,
+            };
+
+            return {
+              products: updateIndex,
+            };
+          }
+
+          return {
+            products: [...state.products, { ...card, quantity: 1 }],
+          };
+          // const exists = state.products.find((item) => item.id === card.id);
+
+          // if (exists) {
+          //   return {
+          //     products: state.products.map((p) =>
+          //       p.id === card.id ? { ...p, quantity: p.quantity + 1 } : p
+          //     ),
+          //   };
+          // }
+          // return {
+          //   products: [...state.products, { ...card, quantity: 1 }],
+          // };
+        }),
+      decrement: (card: dataDetail) =>
+        set((state) => {
+          const exist = state.products.find((item) => item.id === card.id);
+
+          if (exist) {
             return {
               products: state.products.map((p) =>
-                p.id === card.id ? { ...p, quantity: p.quantity + 1 } : p
+                p.id === card.id
+                  ? {
+                      ...p,
+                      quantity: p.quantity >= 1 ? p.quantity - 1 : p.quantity,
+                    }
+                  : p
               ),
             };
           }
@@ -33,8 +79,13 @@ export const useBear = create<State & Action>()(
             products: [...state.products, { ...card, quantity: 1 }],
           };
         }),
+
+      // decrement : (card: dataDetail) => {
+      //   set((state) => {
+      //     const exist = state.pro
+      //   })
+      // },
       quantity: (id: number) => {
-        // console.log(id);
         const getQuantity = get().products.find((p) => p.id === id);
         if (!getQuantity?.quantity) return 0;
         else if (getQuantity.quantity) return getQuantity.quantity;
