@@ -13,6 +13,18 @@ export const useBear = create<State & Action>()(
     (set, get) => ({
       products: [],
       total: 0,
+      add: (card: dataDetail) =>
+        set((state) => {
+          const isExists = state.products.findIndex(
+            (item) => item.id === card.id
+          );
+          if (isExists === -1) {
+            return {
+              products: [...state.products, { ...card, quantity: 1 }],
+            };
+          }
+          return { products: [...state.products, { ...card, quantity: 1 }] };
+        }),
       increment: (card: dataDetail) =>
         set((state) => {
           const index = state.products.findIndex((item) => item.id === card.id);
@@ -57,17 +69,16 @@ export const useBear = create<State & Action>()(
 
       remove: (card: dataDetail) =>
         set((state) => ({
-      
-           products: state.products.filter((item) => item.id !== card.id)
+          products: state.products.filter((item) => item.id !== card.id),
         })),
 
-      quantity: (id: number) => {
-        const getQuantity = get().products.find((p) => p.id === id);
-        if (!getQuantity?.quantity) return 0;
-        else if (getQuantity.quantity) return getQuantity.quantity;
+      // quantity: (id: number) => {
+      //   const getQuantity = get().products.find((p) => p.id === id);
+      //   if (!getQuantity?.quantity) return 0;
+      //   else if (getQuantity.quantity) return getQuantity.quantity;
 
-        return getQuantity.quantity || 0;
-      },
+      //   return getQuantity.quantity || 0;
+      // },
     }),
     {
       name: "product-store",
