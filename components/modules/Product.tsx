@@ -14,6 +14,8 @@ const Product = ({ data }: ProductDetails) => {
   const { image, id, title, price } = data;
   const increase = useBear((state) => state.increment);
   const decrease = useBear((state) => state.decrement);
+  // const Total = useBear((state) => state.products.map(item => item.quantity))
+  // console.log(Total)
 
   const quantity = useBear((state) => quantityCounter(state, id));
   return (
@@ -28,13 +30,19 @@ const Product = ({ data }: ProductDetails) => {
       <span>price {price}</span>
 
       <div className="w-full flex justify-between  text-[1rem]">
-        <Button className="text-[1rem]" onClick={() => decrease(data)}>
-          -
-        </Button>
+        {quantity === 1 && <p>Remove</p>}
+        {quantity > 1 && (
+          <Button className="text-[1rem]" onClick={() => decrease(data)}>
+            -
+          </Button>
+        )}
+
         {quantity}
-        <Button className="text-[1rem]" onClick={() => increase(data)}>
-          +
-        </Button>
+        {quantity >= 1 && (
+          <Button className="text-[1rem]" onClick={() => increase(data)}>
+            +
+          </Button>
+        )}
       </div>
     </div>
   );
