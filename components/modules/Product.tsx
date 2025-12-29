@@ -2,23 +2,19 @@
 import Image from "next/image";
 
 import { dataDetail } from "@/helper/dataFetcher";
-import { quantityCounter, totalItems } from "@/helper/storeHelper";
+import { quantityCounter } from "@/helper/storeHelper";
 import { wordFormatter } from "@/helper/titleFormatter";
 import { useBear } from "@/store/Store";
 import { Button } from "@/ui/button";
+import useZustandActions from "@/utils/zustandImports";
 
 interface ProductDetails {
   data: dataDetail;
 }
 const Product = ({ data }: ProductDetails) => {
   const { image, id, title, price } = data;
-  const increase = useBear((state) => state.increment);
-  const decrease = useBear((state) => state.decrement);
-  const remove = useBear((state) => state.remove);
-  const add = useBear((state) => state.add);
-  const Total = useBear((state) => state.total);
-  console.log(Total);
-  // console.log(Total)
+
+  const { increase, decrease, remove, add } = useZustandActions();
 
   const quantity = useBear((state) => quantityCounter(state, id));
   return (
@@ -47,8 +43,6 @@ const Product = ({ data }: ProductDetails) => {
             +
           </Button>
         )}
-
-        
       </div>
     </div>
   );

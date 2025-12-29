@@ -44,13 +44,13 @@ export const useBear = create<State & Action>()(
               ...updateIndex[index],
               quantity: updateIndex[index].quantity + 1,
             };
-
             return {
               products: updateIndex,
               total: totalItems(updateIndex),
               price: priceHandler(updateIndex),
             };
           }
+
 
           return {
             products: [...state.products, { ...card, quantity: 1 }],
