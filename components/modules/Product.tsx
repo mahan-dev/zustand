@@ -2,7 +2,7 @@
 import Image from "next/image";
 
 import { dataDetail } from "@/helper/dataFetcher";
-import { quantityCounter } from "@/helper/quantityHandler";
+import { quantityCounter, totalItems } from "@/helper/storeHelper";
 import { wordFormatter } from "@/helper/titleFormatter";
 import { useBear } from "@/store/Store";
 import { Button } from "@/ui/button";
@@ -16,7 +16,8 @@ const Product = ({ data }: ProductDetails) => {
   const decrease = useBear((state) => state.decrement);
   const remove = useBear((state) => state.remove);
   const add = useBear((state) => state.add);
-  // const Total = useBear((state) => state.products.map(item => item.quantity))
+  const Total = useBear((state) => state.total);
+  console.log(Total);
   // console.log(Total)
 
   const quantity = useBear((state) => quantityCounter(state, id));
@@ -40,12 +41,14 @@ const Product = ({ data }: ProductDetails) => {
           </Button>
         )}
 
-        {quantity}
+        {quantity >= 1 && quantity}
         {quantity >= 1 && (
           <Button className="text-[1rem]" onClick={() => increase(data)}>
             +
           </Button>
         )}
+
+        
       </div>
     </div>
   );

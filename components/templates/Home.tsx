@@ -29,7 +29,7 @@ const Home = () => {
     return (
       <div className="flex  gap-3">
         {/* <button onClick={increasePopulation}>oneUp</button> */}
-        <button onClick={decreasePopulation}>onDown</button>
+        {/* <button onClick={decreasePopulation}>onDown</button> */}
       </div>
     );
   };

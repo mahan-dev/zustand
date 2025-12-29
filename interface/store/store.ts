@@ -7,13 +7,16 @@ interface State {
 export interface ProductStore extends ItemDetails {
   quantity: number;
   id: number;
+  price: number;
 }
 interface Action {
   add: (product: dataDetail) => void;
   increment: (product: dataDetail) => void;
   decrement: (product: dataDetail) => void;
-  remove: (product:dataDetail) => void;
+  remove: (product: dataDetail) => void;
   quantity?: (item: number) => number;
+  total: number;
+  price: number;
   updateBears?: (newBears: number) => void;
 }
 

@@ -4,6 +4,8 @@ interface ItemDetails {
   title?: string;
   body?: string;
 }
+
+
 interface FormState {
   data?: ItemDetails | null;
   error: string | null;

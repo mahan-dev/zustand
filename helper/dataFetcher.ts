@@ -8,6 +8,7 @@ interface dataDetail {
   image: string;
   price: number;
   title: string;
+  quantity: number;
 }
 
 interface dataResponse {

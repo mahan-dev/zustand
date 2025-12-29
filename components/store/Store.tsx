@@ -5,33 +5,41 @@ import { persist } from "zustand/middleware";
 import { createJSONStorage } from "zustand/middleware";
 
 import { dataDetail } from "@/helper/dataFetcher";
+import { priceHandler, totalItems } from "@/helper/storeHelper";
 import { Action, BearStorage, State } from "@/interface/store/store";
 import { FormState, ItemDetails } from "@/types/helper/type";
 
 export const useBear = create<State & Action>()(
   persist(
-    (set, get) => ({
+    (set) => ({
       products: [],
       total: 0,
+      price: 0,
+
       add: (card: dataDetail) =>
         set((state) => {
           const isExists = state.products.findIndex(
             (item) => item.id === card.id
           );
+
+          const products: State["products"] = [...state.products];
+
           if (isExists === -1) {
-            return {
-              products: [...state.products, { ...card, quantity: 1 }],
-            };
+            products.push({ ...card, quantity: 1 });
           }
-          return { products: [...state.products, { ...card, quantity: 1 }] };
+
+          return {
+            products,
+            total: totalItems(products),
+            price: priceHandler(products),
+          };
         }),
       increment: (card: dataDetail) =>
         set((state) => {
           const index = state.products.findIndex((item) => item.id === card.id);
 
+          const updateIndex: State["products"] = [...state.products];
           if (index !== -1) {
-            const updateIndex = [...state.products];
-
             updateIndex[index] = {
               ...updateIndex[index],
               quantity: updateIndex[index].quantity + 1,
@@ -39,11 +47,15 @@ export const useBear = create<State & Action>()(
 
             return {
               products: updateIndex,
+              total: totalItems(updateIndex),
+              price: priceHandler(updateIndex),
             };
           }
 
           return {
             products: [...state.products, { ...card, quantity: 1 }],
+            total: totalItems(updateIndex),
+            price: priceHandler(updateIndex),
           };
         }),
 
@@ -51,34 +63,38 @@ export const useBear = create<State & Action>()(
         set((state) => {
           const index = state.products.findIndex((item) => item.id === card.id);
 
+          const updateIndex: State["products"] = [...state.products];
           if (index !== -1) {
-            const updateIndex = [...state.products];
             updateIndex[index] = {
               ...updateIndex[index],
               quantity: Math.max(0, updateIndex[index].quantity - 1),
             };
             return {
               products: updateIndex,
+              total: totalItems(updateIndex),
+              price: priceHandler(updateIndex),
             };
           }
 
           return {
             products: [...state.products, { ...card, quantity: 1 }],
+            total: totalItems(updateIndex),
+            price: priceHandler(updateIndex),
           };
         }),
 
       remove: (card: dataDetail) =>
-        set((state) => ({
-          products: state.products.filter((item) => item.id !== card.id),
-        })),
+        set((state) => {
+          const filteredProducts = state.products.filter(
+            (item) => item.id !== card.id
+          );
 
-      // quantity: (id: number) => {
-      //   const getQuantity = get().products.find((p) => p.id === id);
-      //   if (!getQuantity?.quantity) return 0;
-      //   else if (getQuantity.quantity) return getQuantity.quantity;
-
-      //   return getQuantity.quantity || 0;
-      // },
+          return {
+            products: filteredProducts,
+            total: totalItems(filteredProducts),
+            price: priceHandler(filteredProducts),
+          };
+        }),
     }),
     {
       name: "product-store",
