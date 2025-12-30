@@ -51,7 +51,6 @@ export const useBear = create<State & Action>()(
             };
           }
 
-
           return {
             products: [...state.products, { ...card, quantity: 1 }],
             total: totalItems(updateIndex),
