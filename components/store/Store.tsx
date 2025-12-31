@@ -8,8 +8,18 @@ import { dataDetail } from "@/helper/dataFetcher";
 import { priceHandler, totalItems } from "@/helper/storeHelper";
 import { Action, BearStorage, State } from "@/interface/store/store";
 import { FormState, ItemDetails } from "@/types/helper/type";
+interface BearStorageAsync {
+  data: ItemDetails | null;
+  error: string | null;
+  setData: (newData: FormState) => void;
+}
 
-export const useBear = create<State & Action>()(
+interface AsyncAction {
+  add: () => void;
+  stateNumber: number;
+}
+
+const useBear = create<State & Action>()(
   persist(
     (set) => ({
       products: [],
@@ -34,6 +44,7 @@ export const useBear = create<State & Action>()(
             price: priceHandler(products),
           };
         }),
+
       increment: (card: dataDetail) =>
         set((state) => {
           const index = state.products.findIndex((item) => item.id === card.id);
@@ -102,7 +113,7 @@ export const useBear = create<State & Action>()(
   )
 );
 
-export const useBearStore = create<BearStorage>()(
+const useBearStore = create<BearStorage>()(
   persist(
     (set, get) => ({
       bears: 0,
@@ -115,13 +126,7 @@ export const useBearStore = create<BearStorage>()(
   )
 );
 
-interface BearStorageAsync {
-  data: ItemDetails | null;
-  error: string | null;
-  setData: (newData: FormState) => void;
-}
-
-export const usePersistedBearStore = create<BearStorageAsync>()(
+const usePersistedBearStore = create<BearStorageAsync>()(
   persist(
     (set) => ({
       data: null,
@@ -134,3 +139,24 @@ export const usePersistedBearStore = create<BearStorageAsync>()(
     }
   )
 );
+
+const useAsyncBearStore = create<AsyncAction>()(
+  persist(
+    (set, get) => ({
+      stateNumber: 0,
+      add: async () => {
+        console.log("clicked");
+
+        await new Promise((resolver) => setTimeout(resolver, 1000));
+
+        set({ stateNumber: get().stateNumber + 1 });
+      },
+    }),
+    {
+      name: "Async | Actions",
+      storage: createJSONStorage(() => localStorage),
+    }
+  )
+);
+
+export { useBear, useBearStore, usePersistedBearStore, useAsyncBearStore };

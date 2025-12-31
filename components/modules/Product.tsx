@@ -4,9 +4,9 @@ import Image from "next/image";
 import { dataDetail } from "@/helper/dataFetcher";
 import { quantityCounter } from "@/helper/storeHelper";
 import { wordFormatter } from "@/helper/titleFormatter";
+import useZustandActions from "@/hooks/useZustandActions";
 import { useBear } from "@/store/Store";
 import { Button } from "@/ui/button";
-import useZustandActions from "@/utils/zustandImports";
 
 interface ProductDetails {
   data: dataDetail;
@@ -17,6 +17,7 @@ const Product = ({ data }: ProductDetails) => {
   const { increase, decrease, remove, add } = useZustandActions();
 
   const quantity = useBear((state) => quantityCounter(state, id));
+
   return (
     <div
       className=" w-57.5 flex flex-col gap-1 items-center border-2 rounded-[0.7rem] px-4 py-2"

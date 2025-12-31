@@ -30,7 +30,8 @@
       "@/ui/*": ["./components/ui/*"],
       "@/loader/*": ["./components/loader/*"],
       "@/store/*": ["./components/store/*"],
-      "@/api/*": ["./api/*"]
+      "@/api/*": ["./api/*"],
+      "@/hooks/*": ["./hooks/*"]
     }
   },
   "include": [
