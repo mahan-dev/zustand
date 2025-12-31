@@ -20,7 +20,7 @@ interface AsyncAction {
   stateNumber: number;
 }
 
-interface ProductStore {
+interface ProductStoreState {
   product: dataDetail[];
   loading: boolean;
   error: null | string;
@@ -167,7 +167,7 @@ const useAsyncBearStore = create<AsyncAction>()(
   )
 );
 
-const useProductStore = create<ProductStore>()((set) => ({
+const useProductStore = create<ProductStoreState>()((set) => ({
   product: [],
   loading: false,
   error: null,
@@ -185,6 +185,8 @@ const useProductStore = create<ProductStore>()((set) => ({
     }
   },
 }));
+
+export type { ProductStoreState };
 
 export {
   useBear,
