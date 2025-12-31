@@ -4,6 +4,7 @@ import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import { createJSONStorage } from "zustand/middleware";
 
+import { BASE_URL } from "@/api/api";
 import { dataDetail } from "@/helper/dataFetcher";
 import { priceHandler, totalItems } from "@/helper/storeHelper";
 import { Action, BearStorage, State } from "@/interface/store/store";
@@ -17,6 +18,13 @@ interface BearStorageAsync {
 interface AsyncAction {
   add: () => void;
   stateNumber: number;
+}
+
+interface ProductStore {
+  product: dataDetail[];
+  loading: boolean;
+  error: null | string;
+  fetchProducts: () => Promise<void>;
 }
 
 const useBear = create<State & Action>()(
@@ -159,4 +167,29 @@ const useAsyncBearStore = create<AsyncAction>()(
   )
 );
 
-export { useBear, useBearStore, usePersistedBearStore, useAsyncBearStore };
+const useProductStore = create<ProductStore>()((set) => ({
+  product: [],
+  loading: false,
+  error: null,
+  fetchProducts: async () => {
+    set({ loading: true, error: null });
+    try {
+      const res = await fetch(`${BASE_URL}products`);
+      const data = await res.json();
+      set({ product: data });
+    } catch (err) {
+      console.log(err);
+      set({ error: "Failed to fetch Products" });
+    } finally {
+      set({ loading: false });
+    }
+  },
+}));
+
+export {
+  useBear,
+  useBearStore,
+  usePersistedBearStore,
+  useAsyncBearStore,
+  useProductStore,
+};

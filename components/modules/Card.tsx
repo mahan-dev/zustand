@@ -1,15 +1,28 @@
 "use client";
+import { useEffect } from "react";
+
 import { dataResponse } from "@/helper/dataFetcher";
-import useZustandActions from "@/hooks/useZustandActions";
 import Product from "@/modules/Product";
-import { useAsyncBearStore } from "@/store/Store";
+import { useAsyncBearStore, useBear, useProductStore } from "@/store/Store";
 import { Button } from "@/ui/button";
 
 const Card = ({ data }: dataResponse) => {
-  const { price } = useZustandActions();
+  const { price } = useBear();
 
   const increment = useAsyncBearStore((state) => state.add);
   const number = useAsyncBearStore((state) => state.stateNumber);
+  const { product, error, loading, fetchProducts } = useProductStore();
+  useEffect(() => {
+    fetchProducts();
+  }, [fetchProducts]);
+
+  if (loading) return <h2>loading...</h2>;
+
+  if (error) return <h2>something went wrong</h2>;
+  if (product) {
+    console.log(product);
+  }
+
   return (
     <>
       <h1>TotalPrice:{`${price}$`}</h1>
@@ -21,10 +34,7 @@ const Card = ({ data }: dataResponse) => {
 
       <div className="flex justify-center">
         <h1>Async adding</h1>
-
         <Button onClick={() => increment()}>Add</Button>
-        
-
         show:{number}
       </div>
     </>

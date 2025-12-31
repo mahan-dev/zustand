@@ -20,7 +20,6 @@ const addHandler = async (
       data,
     };
   } catch (error) {
-    const getPrev = { ...prevState };
     const errorMessage =
       error instanceof Error ? error.message : "something wen't wrong";
 

@@ -4,7 +4,6 @@ import Image from "next/image";
 import { dataDetail } from "@/helper/dataFetcher";
 import { quantityCounter } from "@/helper/storeHelper";
 import { wordFormatter } from "@/helper/titleFormatter";
-import useZustandActions from "@/hooks/useZustandActions";
 import { useBear } from "@/store/Store";
 import { Button } from "@/ui/button";
 
@@ -14,7 +13,7 @@ interface ProductDetails {
 const Product = ({ data }: ProductDetails) => {
   const { image, id, title, price } = data;
 
-  const { increase, decrease, remove, add } = useZustandActions();
+  const { increment, decrement, remove, add } = useBear();
 
   const quantity = useBear((state) => quantityCounter(state, id));
 
@@ -33,14 +32,14 @@ const Product = ({ data }: ProductDetails) => {
         {quantity < 1 && <p onClick={() => add(data)}>Add</p>}
         {quantity === 1 && <p onClick={() => remove(data)}>Remove</p>}
         {quantity > 1 && (
-          <Button className="text-[1rem]" onClick={() => decrease(data)}>
+          <Button className="text-[1rem]" onClick={() => decrement(data)}>
             -
           </Button>
         )}
 
         {quantity >= 1 && quantity}
         {quantity >= 1 && (
-          <Button className="text-[1rem]" onClick={() => increase(data)}>
+          <Button className="text-[1rem]" onClick={() => increment(data)}>
             +
           </Button>
         )}
