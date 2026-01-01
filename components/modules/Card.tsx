@@ -1,5 +1,6 @@
 "use client";
 import { useEffect } from "react";
+import { shallow } from "zustand/shallow";
 
 import { dataResponse } from "@/helper/dataFetcher";
 import Product from "@/modules/Product";
@@ -15,6 +16,24 @@ const Card = ({ data }: dataResponse) => {
   useEffect(() => {
     fetchProducts();
   }, [fetchProducts]);
+
+  // ? Shallow comparing
+
+  const leftObject = {
+    firstName: "john",
+    lastName: "cena",
+    age: 42,
+  };
+  const rightObject = {
+    firstName: "john",
+    lastName: "cena",
+    age: 42,
+  };
+
+  const res = Object.is(leftObject, rightObject);
+  console.log("🍦 ~ Card.tsx:33 -> res: ", res);
+  const res_2 = shallow(leftObject, rightObject);
+  console.log("🌺 ~ Card.tsx:35 ->  res_2: ", res_2);
 
   if (loading) return <h2>loading...</h2>;
 
