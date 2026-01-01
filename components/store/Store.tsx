@@ -4,28 +4,14 @@ import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import { createJSONStorage } from "zustand/middleware";
 
-import { BASE_URL } from "@/api/api";
 import { dataDetail, fetchProducts } from "@/helper/dataFetcher";
 import { priceHandler, totalItems } from "@/helper/storeHelper";
 import { Action, BearStorage, State } from "@/interface/store/store";
-import { FormState, ItemDetails } from "@/types/helper/type";
-interface BearStorageAsync {
-  data: ItemDetails | null;
-  error: string | null;
-  setData: (newData: FormState) => void;
-}
-
-interface AsyncAction {
-  add: () => void;
-  stateNumber: number;
-}
-
-interface ProductStoreState {
-  product: dataDetail[];
-  loading: boolean;
-  error: null | string;
-  fetchProducts: () => Promise<void>;
-}
+import {
+  AsyncAction,
+  BearStorageAsync,
+  ProductStoreState,
+} from "@/store/interface/interface";
 
 const useBear = create<State & Action>()(
   persist(
