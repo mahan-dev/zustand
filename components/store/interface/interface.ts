@@ -18,5 +18,13 @@ interface ProductStoreState {
   error: null | string;
   fetchProducts: () => Promise<void>;
 }
+type BearFamilyMealsStore = {
+  [key: string]: string;
+};
 
-export type { BearStorageAsync, AsyncAction, ProductStoreState };
+export type {
+  BearStorageAsync,
+  AsyncAction,
+  ProductStoreState,
+  BearFamilyMealsStore,
+};

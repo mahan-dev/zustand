@@ -9,6 +9,7 @@ import { priceHandler, totalItems } from "@/helper/storeHelper";
 import { Action, BearStorage, State } from "@/interface/store/store";
 import {
   AsyncAction,
+  BearFamilyMealsStore,
   BearStorageAsync,
   ProductStoreState,
 } from "@/store/interface/interface";
@@ -160,6 +161,14 @@ const useProductStore = create<ProductStoreState>()((set) => ({
   fetchProducts: async () => await fetchProducts(set),
 }));
 
+
+
+const useBearFamilyMealsStore = create<BearFamilyMealsStore>()(() => ({
+  papaBear: 'large porridge-pot',
+  mamaBear: 'middle-size porridge pot',
+  babyBear: 'A little, small, wee pot',
+}))
+
 export type { ProductStoreState };
 
 export {
@@ -168,4 +177,5 @@ export {
   usePersistedBearStore,
   useAsyncBearStore,
   useProductStore,
+  useBearFamilyMealsStore
 };
