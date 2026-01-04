@@ -1,11 +1,9 @@
 "use client";
 import { useQuery } from "@tanstack/react-query";
-import React from "react";
 
 import { dataFetcher } from "@/helper/dataFetcher";
+import Card from "@/modules/Card";
 import { useBear, useBearStore } from "@/store/Store";
-
-import Card from "../modules/Card";
 
 const Home = () => {
   const { data } = useQuery({
@@ -20,6 +18,7 @@ const Home = () => {
   };
 
   const bears = useBearStore((state) => state.bears);
+
   const addABear = useBearStore((state) => state.addABear);
 
   const Controls = () => {

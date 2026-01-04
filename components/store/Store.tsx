@@ -3,6 +3,8 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import { createJSONStorage } from "zustand/middleware";
+import { shallow } from "zustand/shallow";
+import { createWithEqualityFn } from "zustand/traditional";
 
 import { dataDetail, fetchProducts } from "@/helper/dataFetcher";
 import { priceHandler, totalItems } from "@/helper/storeHelper";
@@ -13,6 +15,12 @@ import {
   BearStorageAsync,
   ProductStoreState,
 } from "@/store/interface/interface";
+
+interface IncrementStore {
+  a: number;
+  b: number;
+  incrementByOne: () => void;
+}
 
 const useBear = create<State & Action>()(
   persist(
@@ -161,13 +169,27 @@ const useProductStore = create<ProductStoreState>()((set) => ({
   fetchProducts: async () => await fetchProducts(set),
 }));
 
+// ! increment Shallow
 
+const useIncrement = createWithEqualityFn<IncrementStore>(
+  (set) => ({
+    a: 1,
+    b: 2,
+    incrementByOne: () => {
+      set((state) => ({
+        a: state.a + 1,
+        b: state.b + 1,
+      }));
+    },
+  }),
+  shallow
+);
 
 const useBearFamilyMealsStore = create<BearFamilyMealsStore>()(() => ({
-  papaBear: 'large porridge-pot',
-  mamaBear: 'middle-size porridge pot',
-  babyBear: 'A little, small, wee pot',
-}))
+  papaBear: "large porridge-pot",
+  mamaBear: "middle-size porridge pot",
+  babyBear: "A little, small, wee pot",
+}));
 
 export type { ProductStoreState };
 
@@ -177,5 +199,6 @@ export {
   usePersistedBearStore,
   useAsyncBearStore,
   useProductStore,
-  useBearFamilyMealsStore
+  useBearFamilyMealsStore,
+  useIncrement,
 };

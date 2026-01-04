@@ -1,22 +1,9 @@
 "use client";
-import { shallow } from "zustand/shallow";
-import { createWithEqualityFn } from "zustand/traditional";
 
-const useStore = createWithEqualityFn(
-  (set) => ({
-    a: 1,
-    b: 2,
-    incrementA: () => set((state) => ({ a: state.a + 1 })),
-  }),
-  shallow // equality function
-);
+import { useIncrement } from "@/store/Store";
 
 export default function MyComponent() {
-  const { a, b, incrementA } = useStore((state) => ({
-    a: state.a,
-    b: state.b,
-    incrementA: state.incrementA,
-  }));
+  const { a, b, incrementByOne } = useIncrement();
 
   console.log("render"); // 🔴 now prints only if a or b actually changes
 
@@ -24,7 +11,7 @@ export default function MyComponent() {
     <div>
       <p>a: {a}</p>
       <p>b: {b}</p>
-      <button onClick={incrementA}>Increment A</button>
+      <button onClick={incrementByOne}>Increment A</button>
     </div>
   );
 }
