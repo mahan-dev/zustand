@@ -3,6 +3,7 @@
 import { create } from "zustand";
 import { combine, persist } from "zustand/middleware";
 import { createJSONStorage } from "zustand/middleware";
+import { immer } from "zustand/middleware/immer";
 import { shallow } from "zustand/shallow";
 import { createWithEqualityFn } from "zustand/traditional";
 
@@ -13,14 +14,10 @@ import {
   AsyncAction,
   BearFamilyMealsStore,
   BearStorageAsync,
+  ImmerStore,
+  IncrementStore,
   ProductStoreState,
 } from "@/store/interface/interface";
-
-interface IncrementStore {
-  a: number;
-  b: number;
-  incrementByOne: () => void;
-}
 
 const useBear = create<State & Action>()(
   persist(
@@ -186,11 +183,11 @@ const useIncrement = createWithEqualityFn<IncrementStore>(
 );
 
 const useIncrementCombine = create(
-  combine({ a: 1, b: 2 }, (set) => ({
+  combine({ storage: "bugatti", bears: 2 }, (set) => ({
     incrementByOne: () =>
       set((state) => ({
-        a: state.a + 1,
-        b: state.b + 1,
+        storage: "Ferrari",
+        bears: state.bears + 1,
       })),
   }))
 );
@@ -200,6 +197,16 @@ const useBearFamilyMealsStore = create<BearFamilyMealsStore>()(() => ({
   mamaBear: "middle-size porridge pot",
   babyBear: "A little, small, wee pot",
 }));
+
+const useStoreImmer = create<ImmerStore>()(
+  immer((set) => ({
+    todos: [],
+    addTodos: (text) =>
+      set((state) => {
+        state.todos.push({ id: Date.now(), text });
+      }),
+  }))
+);
 
 export type { ProductStoreState };
 
@@ -212,4 +219,5 @@ export {
   useBearFamilyMealsStore,
   useIncrement,
   useIncrementCombine,
+  useStoreImmer,
 };

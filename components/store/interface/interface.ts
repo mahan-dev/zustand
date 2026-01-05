@@ -18,6 +18,22 @@ interface ProductStoreState {
   error: null | string;
   fetchProducts: () => Promise<void>;
 }
+
+interface IncrementStore {
+  a: number;
+  b: number;
+  incrementByOne: () => void;
+}
+
+interface Todo {
+  id: number;
+  text: string;
+}
+interface ImmerStore {
+  todos: Todo[];
+  addTodos: (text: string) => void;
+}
+
 type BearFamilyMealsStore = {
   [key: string]: string;
 };
@@ -27,4 +43,6 @@ export type {
   AsyncAction,
   ProductStoreState,
   BearFamilyMealsStore,
+  IncrementStore,
+  ImmerStore,
 };
