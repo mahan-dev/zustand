@@ -1,7 +1,7 @@
 "use client";
 
 import { create } from "zustand";
-import { persist } from "zustand/middleware";
+import { combine, persist } from "zustand/middleware";
 import { createJSONStorage } from "zustand/middleware";
 import { shallow } from "zustand/shallow";
 import { createWithEqualityFn } from "zustand/traditional";
@@ -185,6 +185,16 @@ const useIncrement = createWithEqualityFn<IncrementStore>(
   shallow
 );
 
+const useIncrementCombine = create(
+  combine({ a: 1, b: 2 }, (set) => ({
+    incrementByOne: () =>
+      set((state) => ({
+        a: state.a + 1,
+        b: state.b + 1,
+      })),
+  }))
+);
+
 const useBearFamilyMealsStore = create<BearFamilyMealsStore>()(() => ({
   papaBear: "large porridge-pot",
   mamaBear: "middle-size porridge pot",
@@ -201,4 +211,5 @@ export {
   useProductStore,
   useBearFamilyMealsStore,
   useIncrement,
+  useIncrementCombine,
 };
