@@ -2,22 +2,11 @@
 
 import { useStore } from "zustand";
 
-import {
-  reduxStore,
-  useIncrement,
-  useIncrementCombine,
-  useStoreImmer,
-} from "@/store/Store";
-import { Button } from "@/ui/button";
+import { reduxStore, useIncrement, useStoreImmer } from "@/store/Store";
+import Combine from "@/templates/Combine";
 
 export default function MyComponent() {
   const { a, b, incrementByOne } = useIncrement();
-
-  const {
-    storage: aCombine,
-    bears,
-    incrementByOne: incrementCombine,
-  } = useIncrementCombine();
 
   const { addTodos, todos } = useStoreImmer();
 
@@ -32,14 +21,7 @@ export default function MyComponent() {
       <button onClick={incrementByOne}>Increment A</button>
       <hr />
       <h1>Combine part</h1>
-      <div className="flex flex-col">
-        <Button className="w-fit" onClick={incrementCombine}>
-          Increment
-        </Button>
-        Storage: {aCombine}
-        <br />
-        Bears: {bears}
-      </div>
+      <Combine />
 
       <button onClick={() => addTodos("Add")}>AddTodo</button>
 

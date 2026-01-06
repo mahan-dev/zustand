@@ -34,6 +34,20 @@ interface ImmerStore {
   addTodos: (text: string) => void;
 }
 
+type PersonStoreState = {
+  firstName: string;
+  lastName: string;
+  email: string;
+};
+
+type PersonStore = PersonStoreState & {
+  dispatch: (action: PersonStoreAction) => PersonStoreAction;
+};
+type PersonStoreAction =
+  | { type: "person/setFirstName"; payload: string }
+  | { type: "person/setLastName"; payload: string }
+  | { type: "person/setEmail"; payload: string };
+
 type BearFamilyMealsStore = {
   [key: string]: string;
 };
@@ -45,4 +59,7 @@ export type {
   BearFamilyMealsStore,
   IncrementStore,
   ImmerStore,
+  PersonStore,
+  PersonStoreAction,
+  PersonStoreState
 };

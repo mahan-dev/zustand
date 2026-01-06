@@ -16,6 +16,8 @@ import {
   BearStorageAsync,
   ImmerStore,
   IncrementStore,
+  PersonStoreAction,
+  PersonStoreState,
   ProductStoreState,
 } from "@/store/interface/interface";
 
@@ -208,22 +210,7 @@ const useStoreImmer = create<ImmerStore>()(
   }))
 );
 
-type PersonStoreState = {
-  firstName: string;
-  lastName: string;
-  email: string;
-};
-
-type PersonStoreAction =
-  | { type: "person/setFirstName"; payload: string }
-  | { type: "person/setLastName"; payload: string }
-  | { type: "person/setEmail"; payload: string };
-
-type PersonStore = PersonStoreState & {
-  dispatch: (action: PersonStoreAction) => PersonStoreAction;
-};
-
-const personStoreInitialState: PersonStoreState = {
+const personInitialState: PersonStoreState = {
   firstName: "ashley",
   lastName: "havkings",
   email: "ashley@gmail.com",
@@ -233,13 +220,14 @@ const personStoreReducer = (
   state: PersonStoreState,
   action: PersonStoreAction
 ) => {
-  const { payload, type } = action;
+  const { type, payload } = action;
 
   switch (type) {
     case "person/setFirstName":
       return { ...state, firstName: payload };
-    case "person/setLastName":
+    case "person/setLastName": {
       return { ...state, lastName: payload };
+    }
     case "person/setEmail":
       return { ...state, email: payload };
     default: {
@@ -249,7 +237,7 @@ const personStoreReducer = (
 };
 
 const reduxStore = createStore<PersonStore>()(
-  redux(personStoreReducer, personStoreInitialState)
+  redux(personStoreReducer, personInitialState)
 );
 
 export type { ProductStoreState };
@@ -264,5 +252,5 @@ export {
   useIncrement,
   useIncrementCombine,
   useStoreImmer,
-  reduxStore
+  reduxStore,
 };
