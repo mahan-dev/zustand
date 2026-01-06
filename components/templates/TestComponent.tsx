@@ -1,6 +1,9 @@
 "use client";
 
+import { useStore } from "zustand";
+
 import {
+  reduxStore,
   useIncrement,
   useIncrementCombine,
   useStoreImmer,
@@ -17,6 +20,10 @@ export default function MyComponent() {
   } = useIncrementCombine();
 
   const { addTodos, todos } = useStoreImmer();
+
+  const firstName = useStore(reduxStore, (s) => s.firstName);
+  const lastName = useStore(reduxStore, (s) => s.lastName);
+  const email = useStore(reduxStore, (s) => s.email);
 
   return (
     <div>
@@ -43,6 +50,17 @@ export default function MyComponent() {
             <li>{item.text}</li>
           </ul>
         ))}
+
+      <hr />
+      <h1>middleware --- part</h1>
+
+      {Object.entries({ firstName, lastName, email }).map(([key, value]) => (
+        <ul key={key}>
+          <li>
+            {key} : {value}
+          </li>
+        </ul>
+      ))}
     </div>
   );
 }

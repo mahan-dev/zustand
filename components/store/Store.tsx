@@ -1,7 +1,7 @@
 "use client";
 
-import { create } from "zustand";
-import { combine, persist } from "zustand/middleware";
+import { create, createStore } from "zustand";
+import { combine, persist, redux } from "zustand/middleware";
 import { createJSONStorage } from "zustand/middleware";
 import { immer } from "zustand/middleware/immer";
 import { shallow } from "zustand/shallow";
@@ -208,6 +208,50 @@ const useStoreImmer = create<ImmerStore>()(
   }))
 );
 
+type PersonStoreState = {
+  firstName: string;
+  lastName: string;
+  email: string;
+};
+
+type PersonStoreAction =
+  | { type: "person/setFirstName"; payload: string }
+  | { type: "person/setLastName"; payload: string }
+  | { type: "person/setEmail"; payload: string };
+
+type PersonStore = PersonStoreState & {
+  dispatch: (action: PersonStoreAction) => PersonStoreAction;
+};
+
+const personStoreInitialState: PersonStoreState = {
+  firstName: "ashley",
+  lastName: "havkings",
+  email: "ashley@gmail.com",
+};
+
+const personStoreReducer = (
+  state: PersonStoreState,
+  action: PersonStoreAction
+) => {
+  const { payload, type } = action;
+
+  switch (type) {
+    case "person/setFirstName":
+      return { ...state, firstName: payload };
+    case "person/setLastName":
+      return { ...state, lastName: payload };
+    case "person/setEmail":
+      return { ...state, email: payload };
+    default: {
+      return state;
+    }
+  }
+};
+
+const reduxStore = createStore<PersonStore>()(
+  redux(personStoreReducer, personStoreInitialState)
+);
+
 export type { ProductStoreState };
 
 export {
@@ -220,4 +264,5 @@ export {
   useIncrement,
   useIncrementCombine,
   useStoreImmer,
+  reduxStore
 };
